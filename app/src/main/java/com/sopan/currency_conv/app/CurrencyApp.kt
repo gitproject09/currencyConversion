@@ -11,8 +11,9 @@ open class CurrencyApp : MultiDexApplication() {
         super.onCreate()
         initiateKoin()
     }
+
     private fun initiateKoin() {
-        startKoin{
+        startKoin {
             androidContext(this@CurrencyApp)
             modules(provideDependency())
         }

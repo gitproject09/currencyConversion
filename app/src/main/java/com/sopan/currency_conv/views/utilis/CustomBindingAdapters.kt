@@ -42,7 +42,6 @@ object CustomBindingAdapters {
         //view.visibility = if (items > 0) View.VISIBLE else View.GONE
     }
 
-
     @BindingAdapter("image")
     @JvmStatic
     fun setImage(image: AppCompatImageView, code: String?) {

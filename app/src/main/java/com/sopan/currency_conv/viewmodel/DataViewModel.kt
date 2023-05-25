@@ -40,7 +40,7 @@ class DataViewModel(private val repository: DataRepository) : ViewModel() {
             when (result) {
                 is AppResult.Success -> {
                     //val data=result.successData
-                    countriesList.value = result?.successData!!
+                    countriesList.value = result.successData!!
                     showError.value = null
                 }
                 is AppResult.Error -> showError.value = result.exception.message

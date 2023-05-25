@@ -9,12 +9,6 @@ import com.sopan.currency_conv.model.SupportedCurrency
 @Dao
 interface SupportedCurrenciesDao {
 
-  /*  @Query("SELECT * FROM Countries")
-    fun findAll(): List<CountriesData>*/
-
-   /* @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun add(users: List<CountriesData>)*/
-
    @Query("SELECT * FROM supported_currency")
    fun findAll(): List<SupportedCurrency>
 
