@@ -1,0 +1,134 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+}
+
+android {
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.sopan.currency_conv"
+        minSdkVersion 16
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
+        buildConfigField "String", "BASE_URL", "\"" + getBaseUrlOrProperty("base_url") + "\""
+        buildConfigField "String", "ACCESS_KEY", "\"" + getBaseUrlOrProperty("access_key") + "\""
+
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            debuggable true
+        }
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //---------------- Android Test --------------------//
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'android.arch.core:core-testing:1.1.1'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.1.0'
+    androidTestImplementation 'org.koin:koin-test:2.0.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+
+    testImplementation 'androidx.test.ext:junit:1.1.5'
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.1.0'
+    testImplementation 'org.koin:koin-test:2.0.1'
+    testImplementation 'io.mockk:mockk:1.10.2'
+    
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.6.1"
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+
+    //okhttp
+    implementation "com.squareup.okhttp3:okhttp:4.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+
+    // Koin for DI
+    implementation "org.koin:koin-android:2.0.1"
+    implementation "org.koin:koin-android-viewmodel:2.0.1"
+    implementation "org.koin:koin-androidx-scope:2.0.1"
+
+    // Room
+    implementation "androidx.room:room-runtime:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
+    annotationProcessor "androidx.room:room-compiler:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+
+    //GLide
+    implementation "com.github.bumptech.glide:glide:4.14.2"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.14.2"
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0-rc01"
+    implementation "androidx.navigation:navigation-ui-ktx:2.6.0-rc01"
+
+    // Coroutines for asynchronous calls (and Deferred’s adapter)
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    configurations {
+        compile.exclude group: 'org.jetbrains.kotlinx', module: 'atomicfu-common'
+    }
+
+    //Multidex
+    implementation "androidx.multidex:multidex:2.0.1"
+}
+
+String getBaseUrlOrProperty(String propertyName) {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    String output = properties.getProperty(propertyName)
+    if (output == null)
+        throw new GradleException("Add 'property' field at local.properties file.")
+
+    return output
+}
